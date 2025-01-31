@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import ClaimVerificationView
+from .views import ClaimVerificationView, FetchTweetsView, FetchPodcastsView
 
 urlpatterns = [
-    path('api/influencers/<str:username>/content/', InfluencerContentView.as_view()),
-    path('api/claims/extract/', ClaimExtractionView.as_view()),
-    path('api/claims/verify/', ClaimVerificationView.as_view()),
-    path('api/influencers/leaderboard/', LeaderboardView.as_view()),
+    path('claims/verify/', ClaimVerificationView.as_view()),
+    path('influencers/<str:username>/tweets/', FetchTweetsView.as_view()),
+    path('influencers/<str:name>/podcasts/', FetchPodcastsView.as_view()),
 ]

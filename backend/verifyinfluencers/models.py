@@ -17,6 +17,6 @@ class HealthClaim(models.Model):
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
     text = models.TextField()
     category = models.CharField(max_length=255)
-    status = models.CharField(max_length=50, choices=[('Verified', 'Verified'), ('Debunked', 'Debunked'), ('Questionable', 'Questionable')])
+    verification_status = models.CharField(max_length=50, choices=[('Verified', 'Verified'), ('Debunked', 'Debunked'), ('Questionable', 'Questionable')])
     trust_score = models.FloatField(default=0)
     sources = models.JSONField()

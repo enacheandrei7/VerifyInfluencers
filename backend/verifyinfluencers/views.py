@@ -2,29 +2,11 @@ import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
-from .models import Influencer, HealthClaim
-from .serializers import InfluencerSerializer, HealthClaimSerializer
+from .models import HealthClaim
 from .services.twitter_service import fetch_tweets
-from .services.listennotes_service import search_podcast_episodes
+from .services.perplexity_service import extract_and_categorize_health_claims, verify_health_claim
 
 # Create your views here.
-class ClaimVerificationView(APIView):
-    """
-    View used to ...
-    """
-    def post(self, request):
-        claim_text = request.data.get("text")
-
-        # Call Perplexity API (mocked response)
-        result = {"status": "Debunked", "trust_score": 2.5, "sources": ["Journal of Medicine 2023"]}
-
-        return Response({
-            "text": claim_text,
-            "status": result["status"],
-            "trust_score": result["trust_score"],
-            "sources": result["sources"]
-        })
-
 class FetchTweetsView(APIView):
     """
     API Endpoint to fetch recent tweets from an influencer.
@@ -40,15 +22,34 @@ class FetchTweetsView(APIView):
 
 
 
-class FetchPodcastsView(APIView):
-    """
-    API Endpoint to fetch recent tweets from an influencer.
-    """
-    def get(self, request, name):
-        print(JsonResponse({"message": f"Fetching tweets for {name}"}))
-        podcasts = search_podcast_episodes(name, max_results=10)
-        print(podcasts)
-        if not podcasts:
-            return Response({"error": "No podcasts found or API error"}, status=404)
+class FetchClaims(APIView):
+    def get(self, request, username):
+        """Fetch tweets, extract health claims, categorize, verify, and return results."""
+        # TODO: Add function to extract and user's handle of Twitter (we can do that with Perplexity)
+        tweets = fetch_tweets(username)
+        categorized_claims = extract_and_categorize_health_claims(tweets)
 
-        return Response({"name": name, "podcasts": podcasts})
+        results = []
+        for claim in categorized_claims:
+            verification = verify_health_claim(claim)
+            trust_score = verification.get("trust_score", 50)
+            status = verification.get("status", "Questionable")
+
+            # Save to database
+            hc = HealthClaim(
+                text=claim,
+                category=categorized_claims[claim],
+                verification_status=status,
+                trust_score=trust_score,
+                source=verification.get("source", "")
+            )
+
+            results.append({
+                "claim": hc.text,
+                "category": hc.category,
+                "verification_status": hc.verification_status,
+                "trust_score": hc.trust_score,
+                "sources": hc.sources,
+            })
+
+        return Response(results)

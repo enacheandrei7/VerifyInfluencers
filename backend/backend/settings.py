@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-i8^wl###i6te1q%i^omc4&$cr*q**b7)7o0^a!vkgb^ydjfo0c
 load_dotenv()
 TWITTER_BEARER_TOKEN = os.getenv("TWITTER_BEARER_TOKEN", "")
 LISTEN_NOTES_API_KEY = os.getenv("LISTEN_NOTES_API_KEY", "")
+PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

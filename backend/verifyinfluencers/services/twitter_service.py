@@ -36,5 +36,10 @@ def fetch_tweets(username, max_results=10):
         tweet_fields=["created_at", "text"],
         exclude=["retweets", "replies"]
     )
-    print([tweet.text for tweet in tweets.data])
+    print("THE TWEETS ARE: =========================================================")
+    print(tweets)
+    print("THE TWEETS DATA : =========================================================")
+    print(tweets.data)
+    print("RETURN: =========================================================")
+    # print([tweet.text for tweet in tweets.data])
     return [tweet.text for tweet in tweets.data] if tweets.data else []

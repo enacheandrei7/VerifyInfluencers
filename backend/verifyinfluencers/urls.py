@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import FetchTweetsView
+from .views import FetchTweetsAndGetVerifiedClaims
 
 urlpatterns = [
-    path('influencers/<str:username>/tweets/', FetchTweetsView.as_view()),
+    path('influencers/<str:name>/tweets/', FetchTweetsAndGetVerifiedClaims.as_view()),
 ]

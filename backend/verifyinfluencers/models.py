@@ -16,7 +16,7 @@ class HealthClaim(models.Model):
     """
     Class used to create the Health Claim object.
     """
-    influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
+    influencer = models.ForeignKey(Influencer, related_name="healthclaims", on_delete=models.CASCADE)
     claim = models.TextField()
     category = models.CharField(max_length=255)
     verification_status = models.CharField(max_length=50, choices=[('Verified', 'Verified'), ('Debunked', 'Debunked'), ('Questionable', 'Questionable')])
@@ -24,4 +24,4 @@ class HealthClaim(models.Model):
     sources = models.JSONField(default=list, blank=True) # Stores list of dictionaries with link & name
 
     def __str__(self):
-        return f"{self.claim[:50]}..."  # Show first 50 chars of the claim
+        return self.claim

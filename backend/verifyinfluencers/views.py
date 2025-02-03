@@ -2,14 +2,15 @@ import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
-from .models import HealthClaim
+from .models import HealthClaim, Influencer
+from .serializers import InfluencerSerializer
 from .services.twitter_service import fetch_tweets
 from .services.perplexity_service import extract_and_categorize_health_claims, verify_health_claims, extract_user_twitter_handle
 from .services.utility_service import  get_or_create_influencer, add_health_claim
 
 
 # Create your views here.
-class FetchTweetsAndGetVerifiedClaims(APIView):
+class FetchTweetsAndGetVerifiedClaimsView(APIView):
     def get(self, request, name):
         """Fetch tweets, extract health claims, categorize, verify, and return results."""
 
@@ -62,3 +63,10 @@ class FetchTweetsAndGetVerifiedClaims(APIView):
             })
 
         return Response(results)
+
+
+class InfluencerListView(APIView):
+    def get(self, request, *args, **kwargs):
+        influencers = Influencer.objects.all()
+        serializer = InfluencerSerializer(influencers, many=True)
+        return Response(serializer.data)

@@ -6,6 +6,7 @@ from django.conf import settings
 from pydantic import BaseModel
 from typing import Literal
 
+from rest_framework.response import Response
 
 PERPLEXITY_API_KEY = settings.PERPLEXITY_API_KEY
 
@@ -366,6 +367,8 @@ def verify_health_claims(claims_and_categories):
 
 def extract_user_twitter_handle(name):
     """Use Perplexity API to extract and categorize health claims from tweets."""
+    #TODO: Delete this
+    return 'hubermanlab'
     url = "https://api.perplexity.ai/chat/completions"
     headers = {"Authorization": f"Bearer {PERPLEXITY_API_KEY}"}
 
@@ -391,6 +394,7 @@ def extract_user_twitter_handle(name):
     if response.status_code == 200:
         results = response.json()
         twitter_handle = results.get("choices", [])[0].get("message", {}).get("content")
+        print(f"The found user is: {twitter_handle}")
         return twitter_handle
     else:
         return ""  # Return empty value if user not found
@@ -402,5 +406,4 @@ def extract_json(text):
     """
     pattern = r'\{(?:[^{}]*|\{(?:[^{}]*|\{[^{}]*\})*\})*\}'  # Handles nested {}
     match = re.search(pattern, text, re.DOTALL)
-    print(match)
     return match.group(0) if match else None

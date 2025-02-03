@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     # Internal Apps
-    'verifyinfluencers'
+    'verifyinfluencers',
 ]
 
 MIDDLEWARE = [

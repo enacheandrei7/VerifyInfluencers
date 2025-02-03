@@ -7,9 +7,7 @@ class Influencer(models.Model):
     """
     username = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
-    followers = models.IntegerField()
     topics = models.JSONField()
-    # trust_score = models.FloatField(default=0)
 
     def __str__(self):
         return str(self.username)

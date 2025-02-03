@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from .models import HealthClaim
 from .services.twitter_service import fetch_tweets
 from .services.perplexity_service import extract_and_categorize_health_claims, verify_health_claims, extract_user_twitter_handle
+from .services.utility_service import  get_or_create_influencer, add_health_claim
+
 
 # Create your views here.
 class FetchTweetsAndGetVerifiedClaims(APIView):
@@ -38,21 +40,25 @@ class FetchTweetsAndGetVerifiedClaims(APIView):
             trust_score = verified_claim_object.get("trust_score", 50)
             verification_status = verified_claim_object.get("verification_status", "Questionable")
 
-            # Save to database
-            hc = HealthClaim.objects.create(
-                claim=claim,
-                category=category,
-                verification_status=verification_status,
-                trust_score=trust_score,
-                sources=studies
+            influencer = get_or_create_influencer(
+                username=username,
+                name=name,
+                topics=[category]
             )
 
+            added_health_claim = add_health_claim(influencer=influencer,
+                                                  claim_text=claim,
+                                                  category=category,
+                                                  verification_status=verification_status,
+                                                  trust_score=trust_score,
+                                                  sources=studies)
+
             results.append({
-                "claim": hc.claim,
-                "category": hc.category,
-                "verification_status": hc.verification_status,
-                "trust_score": hc.trust_score,
-                "sources": hc.sources,
+                "claim": claim,
+                "category": category,
+                "verification_status": verification_status,
+                "trust_score": trust_score,
+                "sources": studies,
             })
 
         return Response(results)

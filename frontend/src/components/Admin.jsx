@@ -13,6 +13,7 @@ export default function Admin() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
@@ -28,7 +29,7 @@ export default function Admin() {
       let response;
       if (twitterKey != "") {
         response = await axios.get(
-          `http://127.0.0.1:8000/api/influencers/${username}/tweets/`,
+          `${backendUrl}/api/influencers/${username}/tweets/`,
           {
             headers: {
               Authorization: twitterKey,
@@ -38,7 +39,7 @@ export default function Admin() {
         );
       } else {
         response = await axios.get(
-          `http://127.0.0.1:8000/api/influencers/${username}/tweets/`
+          `${backendUrl}/api/influencers/${username}/tweets/`
         );
       }
 
@@ -57,7 +58,7 @@ export default function Admin() {
 
       try {
         const allInfluencers = await axios.get(
-          "http://127.0.0.1:8000/api/influencers/"
+          `${backendUrl}/api/influencers/`
         );
         const influencer = allInfluencers.data.filter(
           (influencer) =>

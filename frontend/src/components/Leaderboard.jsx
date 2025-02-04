@@ -6,6 +6,7 @@ import { IoStatsChartSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 export default function Leaderboard() {
+  const backendUrl = import.meta.env.VITE_API_BASE_URL;
   const [influencersData, setInfluencerData] = useState([]);
 
   useEffect(() => {
@@ -14,9 +15,7 @@ export default function Leaderboard() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/influencers/"
-      );
+      const response = await axios.get(`${backendUrl}/api/influencers/`);
       setInfluencerData(response.data);
     } catch (error) {}
   };

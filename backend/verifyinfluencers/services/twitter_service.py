@@ -54,6 +54,7 @@ def fetch_tweets(username, api_key: str = "", max_results=5):
             tweet_fields=["created_at", "text"],
             exclude=["retweets", "replies"]
         )
+        print("Tweets obtained successfully.")
     except tweepy.TooManyRequests:
         return Response({"error": "Too many requests."}, status=429)
     except tweepy.NotFound:

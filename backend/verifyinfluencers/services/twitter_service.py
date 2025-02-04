@@ -3,7 +3,6 @@ import tweepy
 from django.conf import settings
 from rest_framework.response import Response
 from .utility_service import get_or_create_influencer
-from verifyinfluencers.models import Influencer
 
 TWITTER_BEARER_TOKEN = settings.TWITTER_BEARER_TOKEN
 
@@ -16,15 +15,6 @@ def fetch_tweets(username, api_key: str = "", max_results=10):
     :param max_results: Max tweets
     :return: List of tweet texts
     """
-
-    # andrew_huberman_tweets = [
-    #     "Over the last 20 years, there’s been a progressive move toward funding work that is basically already completed. It’s caused a lot of projects that could’ve made major discoveries to not get funded. Anyone who’s been on a grant study section @NIH knows what I’m referring to.",
-    #     "• Basic research is vital for new biomedical discoveries\n• There is a lot redundant science funded by @NIH \n• They should fund bolder (yet safe) work\n• Newer labs should be prioritized; the new blood brain drain from US science is a real concern",
-    #     "The mechanisms are well known, and not controversial. But we are not taught about these.",
-    #     "Once you realize how certain foods are designed to make you ingest more of them via gut-to-brain (unconscious) dopamine signaling you will see how they literally control you from the inside. We are an obese, not a lazy country. Knowledge on this = power.",
-    #     "Obviously fruit, vegetables, lean meat, chicken &amp; eggs, quality starches with minimal ingredients are the exception.",
-    # ]
-    # return andrew_huberman_tweets
 
     if api_key:
         client = tweepy.Client(api_key)
@@ -68,7 +58,6 @@ def fetch_tweets(username, api_key: str = "", max_results=10):
         return Response({"error": "Too many requests."}, status=429)
     except tweepy.NotFound:
         return Response({"error": "No tweets found for the specified user."}, status=404)
-    # print([tweet.text for tweet in tweets.data])
 
     influencer = get_or_create_influencer(
         username=username,

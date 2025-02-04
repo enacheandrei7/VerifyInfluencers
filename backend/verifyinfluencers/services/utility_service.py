@@ -1,15 +1,13 @@
 from verifyinfluencers.models import Influencer, HealthClaim
 
+
 def get_or_create_influencer(username, name, topics):
     influencer, created = Influencer.objects.get_or_create(
         username=username,
         defaults={"name": name},
     )
-    # Ensure topics are updated even if influencer already exists
-    if created:
-        influencer.topics.set(topics)  # If topics is a list of existing Topic objects
-    else:
-        influencer.topics.append(*topics)  # Add new topics if needed
+    for topic in topics:
+        influencer.topics.append(topic)
     influencer.save()
 
     return influencer

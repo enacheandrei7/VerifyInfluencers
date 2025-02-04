@@ -14,11 +14,13 @@ class FetchTweetsAndGetVerifiedClaimsView(APIView):
     def get(self, request, name):
         """Fetch tweets, extract health claims, categorize, verify, and return results."""
 
+        api_key = request.headers.get("Authorization")
+
         username = extract_user_twitter_handle(name)
         if not username:
             return Response({"error": "No Twitter handle found for that user"}, status=404)
 
-        tweets = fetch_tweets(username)
+        tweets = fetch_tweets(username=username, api_key=api_key)
         if not tweets:
             return Response({"error": "No tweets found for the specified user."}, status=404)
         if type(tweets) != list:
@@ -60,6 +62,7 @@ class FetchTweetsAndGetVerifiedClaimsView(APIView):
                 "verification_status": verification_status,
                 "trust_score": trust_score,
                 "sources": studies,
+                "twitter_username": username
             })
 
         return Response(results)

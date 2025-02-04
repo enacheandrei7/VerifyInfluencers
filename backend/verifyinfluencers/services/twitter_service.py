@@ -7,7 +7,7 @@ from .utility_service import get_or_create_influencer
 TWITTER_BEARER_TOKEN = settings.TWITTER_BEARER_TOKEN
 
 
-def fetch_tweets(username, api_key: str = "", max_results=10):
+def fetch_tweets(username, api_key: str = "", max_results=5):
     """
     Fetch recent tweets from a given influencer.
     :param username: Twitter handle of the influencer

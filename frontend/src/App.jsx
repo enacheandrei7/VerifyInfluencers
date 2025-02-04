@@ -5,13 +5,13 @@ import Admin from "./components/Admin";
 import Influencer from "./components/Influencer";
 export default function App() {
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-x-hidden">
       <Navbar />
       <Routes>
         <Route path="/" element={<Leaderboard />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/influencer" element={<Influencer />} />
+        <Route path="/influencer/:username" element={<Influencer />} />
         <Route path="*" element={<Leaderboard />} />
       </Routes>
     </div>

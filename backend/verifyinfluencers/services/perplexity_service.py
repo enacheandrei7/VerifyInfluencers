@@ -105,11 +105,13 @@ def extract_user_twitter_handle(name):
     url = "https://api.perplexity.ai/chat/completions"
     headers = {"Authorization": f"Bearer {PERPLEXITY_API_KEY}"}
 
-    system_query = "Return only the username of the user in the format 'username'. Remove the leading '@'."
-    user_query = f"Taking the following name: {name}, return the health influencer with that name on Twitter/X. If no user is found, return 'can't find an user'"
+    system_query = "Return only the Twitter username of the user in the format 'username' by removing the leading '@'."
+    user_query = f"Taking the following name: {name}, return the health influencer with that name on Twitter/X. " \
+                 f"If the provided username is a Twitter hanlde just return it back. " \
+                 f"If no user is found, return 'can't find an user'"
 
     data = {
-        "model": "sonar",
+        "model": "sonar-pro",
         "messages": [
             {
                 "role": "system",

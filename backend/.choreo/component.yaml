@@ -1,8 +1,7 @@
-version: 0.1
+schemaVersion: "1.1"
 endpoints:
-    - name: "REST API"
+    - name: rest-api-be2
       displayName: "REST API"
-      port: 8000
       service:
         basePath: /
         port: 8000
@@ -11,4 +10,3 @@ endpoints:
         - Project
         - Public
       schemaFilePath: .
-      context: /

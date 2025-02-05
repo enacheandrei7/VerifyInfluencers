@@ -13,7 +13,10 @@ export default function Admin() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const backendUrl = import.meta.env.VITE_API_BASE_URL;
+  const apiUrl = "/choreo-apis/verifyinfluencersdjangore/backend/v1";
+  const backendUrl = import.meta.env.VITE_API_BASE_URL
+    ? import.meta.env.VITE_API_BASE_URL
+    : apiUrl;
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload

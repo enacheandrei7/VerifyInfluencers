@@ -6,7 +6,10 @@ import { IoStatsChartSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 export default function Leaderboard() {
-  const backendUrl = import.meta.env.VITE_API_BASE_URL;
+  const apiUrl = "/choreo-apis/verifyinfluencersdjangore/backend/v1";
+  const backendUrl = import.meta.env.VITE_API_BASE_URL
+    ? import.meta.env.VITE_API_BASE_URL
+    : apiUrl;
   const [influencersData, setInfluencerData] = useState([]);
 
   useEffect(() => {

@@ -1,3 +1,5 @@
+import logging
+
 import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,6 +16,8 @@ class FetchTweetsAndGetVerifiedClaimsView(APIView):
     def get(self, request, name):
         """Fetch tweets, extract health claims, categorize, verify, and return results."""
 
+        print("Here from print")
+        logging.info("Here from logss")
         api_key = request.headers.get("Authorization")
 
         username = extract_user_twitter_handle(name)

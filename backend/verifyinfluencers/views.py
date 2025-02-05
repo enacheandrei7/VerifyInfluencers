@@ -16,7 +16,6 @@ class FetchTweetsAndGetVerifiedClaimsView(APIView):
     def get(self, request, name):
         """Fetch tweets, extract health claims, categorize, verify, and return results."""
 
-        print("Here from print")
         logging.info("Here from logss")
         api_key = request.headers.get("Authorization")
 

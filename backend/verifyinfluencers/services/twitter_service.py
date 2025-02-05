@@ -23,7 +23,6 @@ def fetch_tweets(username, api_key: str = "", max_results=5):
     try:
         # Use the handle of the user to retrieve their ID
         user = client.get_user(username=username, user_auth=False)
-        print(f'The user is: {user}')
     except tweepy.TooManyRequests as exc:
         print(exc)
         return Response({"error": "Too many requests."}, status=429)
@@ -40,6 +39,7 @@ def fetch_tweets(username, api_key: str = "", max_results=5):
     if user.data:
         # Get user ID
         user_id = user.data.id
+        print(f'The user ID is: {user_id}')
         name = user.data.name
     else:
         print(f"User '{username}' not found.")

@@ -122,7 +122,9 @@ def extract_user_twitter_handle(name):
                     ]
     }
 
+    print("Preparing to extract the user...")
     response = requests.post(url, headers=headers, json=data)
+    print("Checking if the perplexity has found a proper response...")
 
     if response.status_code == 200:
         results = response.json()
@@ -133,6 +135,7 @@ def extract_user_twitter_handle(name):
         print(f"The found user is: {twitter_handle}")
         return twitter_handle
     else:
+        print("No name found for the specified user.")
         return ""  # Return empty value if user not found
 
 

@@ -56,8 +56,10 @@ def fetch_tweets(username, api_key: str = "", max_results=5):
         )
         print("Tweets obtained successfully.")
     except tweepy.TooManyRequests:
+        print("Too many requests to the X API.")
         return Response({"error": "Too many requests."}, status=429)
     except tweepy.NotFound:
+        print("No tweets found for the found user.")
         return Response({"error": "No tweets found for the specified user."}, status=404)
 
     influencer = get_or_create_influencer(
